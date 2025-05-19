@@ -5,6 +5,7 @@ class Todo {
   String description;
   bool isCompleted;
   DateTime createdAt;
+  DateTime? scheduledFor;
   double? latitude;
   double? longitude;
 
@@ -15,6 +16,7 @@ class Todo {
     this.description = '',
     this.isCompleted = false,
     required this.createdAt,
+    this.scheduledFor,
     this.latitude,
     this.longitude,
   });
@@ -27,6 +29,7 @@ class Todo {
       'description': description,
       'isCompleted': isCompleted,
       'createdAt': createdAt.toIso8601String(),
+      'scheduledFor': scheduledFor?.toIso8601String(),
       'latitude': latitude,
       'longitude': longitude,
     };
@@ -42,6 +45,9 @@ class Todo {
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
           : DateTime.now(),
+      scheduledFor: json['scheduledFor'] != null
+          ? DateTime.parse(json['scheduledFor'])
+          : null,
       latitude: json['latitude']?.toDouble(),
       longitude: json['longitude']?.toDouble(),
     );
@@ -51,6 +57,7 @@ class Todo {
     String? title,
     String? description,
     bool? isCompleted,
+    DateTime? scheduledFor,
     double? latitude,
     double? longitude,
   }) {
@@ -61,6 +68,7 @@ class Todo {
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
       createdAt: createdAt,
+      scheduledFor: scheduledFor ?? this.scheduledFor,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
     );

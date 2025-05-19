@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:uuid/uuid.dart';
 import '../models/todo.dart';
+import 'package:intl/intl.dart';
 
 class AddTodoForm extends StatefulWidget {
   final Function(Todo) onAdd;
@@ -22,10 +23,40 @@ class AddTodoForm extends StatefulWidget {
 class _AddTodoFormState extends State<AddTodoForm> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
+  DateTime? _selectedDateTime;
   double? _latitude;
   double? _longitude;
   final _mapController = MapController();
   final _uuid = const Uuid();
+
+  Future<void> _selectDateTime() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDateTime ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime:
+            TimeOfDay.fromDateTime(_selectedDateTime ?? DateTime.now()),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _selectedDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
+    }
+  }
 
   Future<void> _selectLocation() async {
     final result = await showDialog<LatLng>(
@@ -117,6 +148,7 @@ class _AddTodoFormState extends State<AddTodoForm> {
       description: _descriptionController.text.trim(),
       isCompleted: false,
       createdAt: DateTime.now(),
+      scheduledFor: _selectedDateTime,
       latitude: _latitude,
       longitude: _longitude,
     );
@@ -182,6 +214,19 @@ class _AddTodoFormState extends State<AddTodoForm> {
                     hintText: 'Adicione uma descrição (opcional)',
                   ),
                   maxLines: 3,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: _selectDateTime,
+                  icon: const Icon(Icons.calendar_today),
+                  label: Text(
+                    _selectedDateTime != null
+                        ? 'Data: ${DateFormat('dd/MM/yyyy HH:mm').format(_selectedDateTime!)}'
+                        : 'Selecionar Data e Hora',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(16),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton.icon(

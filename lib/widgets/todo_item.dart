@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../models/todo.dart';
 import 'edit_todo_dialog.dart';
+import 'package:intl/intl.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -155,9 +156,31 @@ class TodoItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Criado em: ${todo.createdAt.day}/${todo.createdAt.month}/${todo.createdAt.year}',
+              'Criado em: ${DateFormat('dd/MM/yyyy').format(todo.createdAt)}',
               style: const TextStyle(fontSize: 12),
             ),
+            if (todo.scheduledFor != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.calendar_today,
+                        size: 14, color: Colors.blue),
+                    const SizedBox(width: 4),
+                    Flexible(
+                      child: Text(
+                        'Programado para: ${DateFormat('dd/MM/yyyy HH:mm').format(todo.scheduledFor!)}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             if (todo.description.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 4.0),
@@ -175,17 +198,27 @@ class TodoItem extends StatelessWidget {
               ),
           ],
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
+        trailing: Wrap(
+          spacing: 4,
           children: [
             IconButton(
               icon: const Icon(Icons.location_on),
               onPressed: () => _showLocationMap(context),
               color: todo.latitude != null ? Colors.blue : Colors.grey,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 40,
+                minHeight: 40,
+              ),
             ),
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () => _showEditDialog(context),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 40,
+                minHeight: 40,
+              ),
             ),
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
@@ -195,6 +228,11 @@ class TodoItem extends StatelessWidget {
                   onDelete(todo.id);
                 }
               },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 40,
+                minHeight: 40,
+              ),
             ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../models/todo.dart';
+import 'package:intl/intl.dart';
 
 class EditTodoDialog extends StatefulWidget {
   final Todo todo;
@@ -20,6 +21,7 @@ class EditTodoDialog extends StatefulWidget {
 class _EditTodoDialogState extends State<EditTodoDialog> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
+  late DateTime? _scheduledDateTime;
   late double? _latitude;
   late double? _longitude;
   final MapController _mapController = MapController();
@@ -30,6 +32,7 @@ class _EditTodoDialogState extends State<EditTodoDialog> {
     _titleController = TextEditingController(text: widget.todo.title);
     _descriptionController =
         TextEditingController(text: widget.todo.description);
+    _scheduledDateTime = widget.todo.scheduledFor;
     _latitude = widget.todo.latitude;
     _longitude = widget.todo.longitude;
   }
@@ -58,6 +61,35 @@ class _EditTodoDialogState extends State<EditTodoDialog> {
       if (!mounted) return;
       widget.onDelete(widget.todo.id);
       Navigator.of(context).pop();
+    }
+  }
+
+  Future<void> _selectDateTime() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _scheduledDateTime ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime:
+            TimeOfDay.fromDateTime(_scheduledDateTime ?? DateTime.now()),
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          _scheduledDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
     }
   }
 
@@ -159,6 +191,16 @@ class _EditTodoDialogState extends State<EditTodoDialog> {
           ),
           const SizedBox(height: 16),
           ElevatedButton.icon(
+            onPressed: _selectDateTime,
+            icon: const Icon(Icons.calendar_today),
+            label: Text(
+              _scheduledDateTime != null
+                  ? 'Data: ${DateFormat('dd/MM/yyyy HH:mm').format(_scheduledDateTime!)}'
+                  : 'Selecionar Data e Hora',
+            ),
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
             onPressed: _selectLocation,
             icon: const Icon(Icons.location_on),
             label: Text(_latitude != null
@@ -191,6 +233,7 @@ class _EditTodoDialogState extends State<EditTodoDialog> {
             final editedTodo = widget.todo.copyWith(
               title: _titleController.text,
               description: _descriptionController.text,
+              scheduledFor: _scheduledDateTime,
               latitude: _latitude,
               longitude: _longitude,
             );
