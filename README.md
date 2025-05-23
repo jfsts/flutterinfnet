@@ -223,15 +223,12 @@ Contribuições são bem-vindas! Para contribuir:
 
 ## 📞 **Contato**
 
-**Desenvolvedor**: Seu Nome  
-**Email**: seu.email@exemplo.com  
-**LinkedIn**: [Seu LinkedIn](https://linkedin.com/in/seu-perfil)  
+**Desenvolvedor**: JEFFERSON FERREIRA SANTOS
+**Email**: jef.santosbb@yahoo.com.br  
 **GitHub**: [jfsts](https://github.com/jfsts)
 
 ---
 
 ⭐ **Se este projeto foi útil para você, deixe uma estrela no repositório!**
 
----
 
-**Desenvolvido com ❤️ usando Flutter**
