@@ -25,6 +25,8 @@ class _AddTodoFormState extends State<AddTodoForm> {
   final _descriptionController = TextEditingController();
   double? _latitude;
   double? _longitude;
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
   final _mapController = MapController();
   final _uuid = const Uuid();
   bool _isLoadingLocation = false;
@@ -192,6 +194,58 @@ class _AddTodoFormState extends State<AddTodoForm> {
     }
   }
 
+  Future<void> _selectDate() async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2101),
+      helpText: 'Selecione a data de vencimento',
+      cancelText: 'Cancelar',
+      confirmText: 'Confirmar',
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
+    }
+  }
+
+  Future<void> _selectTime() async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime ?? TimeOfDay.now(),
+      helpText: 'Selecione o horário de vencimento',
+      cancelText: 'Cancelar',
+      confirmText: 'Confirmar',
+      hourLabelText: 'Hora',
+      minuteLabelText: 'Minuto',
+    );
+    if (picked != null && picked != _selectedTime) {
+      setState(() {
+        _selectedTime = picked;
+      });
+    }
+  }
+
+  String _formatDateTime() {
+    if (_selectedDate == null) return '';
+
+    final day = _selectedDate!.day.toString().padLeft(2, '0');
+    final month = _selectedDate!.month.toString().padLeft(2, '0');
+    final year = _selectedDate!.year;
+
+    String dateStr = '$day/$month/$year';
+
+    if (_selectedTime != null) {
+      final hour = _selectedTime!.hour.toString().padLeft(2, '0');
+      final minute = _selectedTime!.minute.toString().padLeft(2, '0');
+      dateStr += ' às $hour:$minute';
+    }
+
+    return dateStr;
+  }
+
   void _submitForm() {
     if (_titleController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -210,6 +264,8 @@ class _AddTodoFormState extends State<AddTodoForm> {
       description: _descriptionController.text.trim(),
       isCompleted: false,
       createdAt: DateTime.now(),
+      dueDate: _selectedDate,
+      dueTime: _selectedTime,
       latitude: _latitude,
       longitude: _longitude,
     );
@@ -305,6 +361,103 @@ class _AddTodoFormState extends State<AddTodoForm> {
                   maxLines: 3,
                 ),
                 const SizedBox(height: 16),
+                // Seção de Data e Hora
+                const Text(
+                  'Data e Hora de Vencimento (opcional)',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _selectDate,
+                        icon: const Icon(Icons.calendar_today),
+                        label: Text(_selectedDate == null
+                            ? 'Selecionar Data'
+                            : '${_selectedDate!.day.toString().padLeft(2, '0')}/${_selectedDate!.month.toString().padLeft(2, '0')}/${_selectedDate!.year}'),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
+                          backgroundColor:
+                              _selectedDate != null ? Colors.blue : null,
+                          foregroundColor:
+                              _selectedDate != null ? Colors.white : null,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: _selectedDate != null ? _selectTime : null,
+                        icon: const Icon(Icons.access_time),
+                        label: Text(_selectedTime == null
+                            ? 'Selecionar Hora'
+                            : '${_selectedTime!.hour.toString().padLeft(2, '0')}:${_selectedTime!.minute.toString().padLeft(2, '0')}'),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.all(16),
+                          backgroundColor:
+                              _selectedTime != null ? Colors.blue : null,
+                          foregroundColor:
+                              _selectedTime != null ? Colors.white : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                // Exibe a data/hora selecionada de forma resumida
+                if (_selectedDate != null)
+                  Container(
+                    margin: const EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      border: Border.all(color: Colors.blue.shade200),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.schedule,
+                            color: Colors.blue, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Vencimento: ${_formatDateTime()}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedDate = null;
+                              _selectedTime = null;
+                            });
+                          },
+                          icon: const Icon(Icons.clear, size: 18),
+                          color: Colors.red,
+                          tooltip: 'Remover data/hora',
+                        ),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 8),
+                const Text(
+                  'Localização (opcional)',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 8),
                 Row(
                   children: [
                     Expanded(

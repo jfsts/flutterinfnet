@@ -8,7 +8,52 @@ class TodoProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
 
-  List<Todo> get todos => List.unmodifiable(_todos);
+  List<Todo> get todos {
+    final sortedTodos = List<Todo>.from(_todos);
+
+    // Ordena as tarefas: vencidas e não concluídas primeiro, depois por data de vencimento, depois por data de criação
+    sortedTodos.sort((a, b) {
+      // Se uma está concluída e a outra não, a não concluída vem primeiro
+      if (a.isCompleted != b.isCompleted) {
+        return a.isCompleted ? 1 : -1;
+      }
+
+      // Se ambas não estão concluídas, verifica se estão vencidas
+      if (!a.isCompleted && !b.isCompleted) {
+        final aOverdue = a.isOverdue;
+        final bOverdue = b.isOverdue;
+
+        // Tarefas vencidas vêm primeiro
+        if (aOverdue != bOverdue) {
+          return aOverdue ? -1 : 1;
+        }
+      }
+
+      // Se têm data de vencimento, ordena por ela
+      if (a.dueDate != null && b.dueDate != null) {
+        final comparison = a.dueDate!.compareTo(b.dueDate!);
+        if (comparison != 0) return comparison;
+
+        // Se têm horário também, considera o horário
+        if (a.dueTime != null && b.dueTime != null) {
+          final aMinutes = a.dueTime!.hour * 60 + a.dueTime!.minute;
+          final bMinutes = b.dueTime!.hour * 60 + b.dueTime!.minute;
+          final timeComparison = aMinutes.compareTo(bMinutes);
+          if (timeComparison != 0) return timeComparison;
+        }
+      }
+
+      // Se apenas uma tem data de vencimento, ela vem primeiro
+      if (a.dueDate != null && b.dueDate == null) return -1;
+      if (a.dueDate == null && b.dueDate != null) return 1;
+
+      // Por último, ordena por data de criação (mais recente primeiro)
+      return b.createdAt.compareTo(a.createdAt);
+    });
+
+    return List.unmodifiable(sortedTodos);
+  }
+
   bool get isLoading => _isLoading;
   String? get error => _error;
 

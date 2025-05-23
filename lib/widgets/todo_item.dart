@@ -127,6 +127,8 @@ class TodoItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isOverdue = todo.isOverdue;
+
     return Dismissible(
       key: Key(todo.id),
       confirmDismiss: (_) => _confirmDelete(context),
@@ -140,63 +142,157 @@ class TodoItem extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      child: ListTile(
-        leading: Checkbox(
-          value: todo.isCompleted,
-          onChanged: (_) => onToggle(todo.id),
-        ),
-        title: Text(
-          todo.title,
-          style: TextStyle(
-            decoration: todo.isCompleted ? TextDecoration.lineThrough : null,
+      child: Container(
+        decoration: isOverdue
+            ? BoxDecoration(
+                border: Border.all(color: Colors.red.shade300, width: 1),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.red.shade50,
+              )
+            : null,
+        margin: isOverdue ? const EdgeInsets.symmetric(vertical: 2) : null,
+        child: ListTile(
+          leading: Checkbox(
+            value: todo.isCompleted,
+            onChanged: (_) => onToggle(todo.id),
           ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Criado em: ${todo.createdAt.day}/${todo.createdAt.month}/${todo.createdAt.year}',
-              style: const TextStyle(fontSize: 12),
-            ),
-            if (todo.description.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 4.0),
+          title: Row(
+            children: [
+              Expanded(
                 child: Text(
-                  todo.description,
-                  style: const TextStyle(fontSize: 14),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                  todo.title,
+                  style: TextStyle(
+                    decoration:
+                        todo.isCompleted ? TextDecoration.lineThrough : null,
+                    color: isOverdue && !todo.isCompleted
+                        ? Colors.red.shade700
+                        : null,
+                    fontWeight:
+                        isOverdue && !todo.isCompleted ? FontWeight.w600 : null,
+                  ),
                 ),
               ),
-            if (todo.latitude != null && todo.longitude != null)
+              if (isOverdue && !todo.isCompleted)
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Text(
+                    'VENCIDA',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Data e hora de vencimento
+              if (todo.dueDate != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.schedule,
+                        size: 14,
+                        color: isOverdue && !todo.isCompleted
+                            ? Colors.red
+                            : Colors.blue,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          'Vence: ${todo.formattedDueDateTimeCompact}',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isOverdue && !todo.isCompleted
+                                ? Colors.red.shade700
+                                : Colors.blue.shade700,
+                            fontWeight: isOverdue && !todo.isCompleted
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              // Data de criação
               Text(
-                'Lat: ${todo.latitude!.toStringAsFixed(6)}\nLong: ${todo.longitude!.toStringAsFixed(6)}',
+                'Criado em: ${todo.createdAt.day}/${todo.createdAt.month}/${todo.createdAt.year}',
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
-          ],
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.location_on),
-              onPressed: () => _showLocationMap(context),
-              color: todo.latitude != null ? Colors.blue : Colors.grey,
-            ),
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => _showEditDialog(context),
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: () async {
-                final shouldDelete = await _confirmDelete(context);
-                if (shouldDelete) {
-                  onDelete(todo.id);
-                }
-              },
-            ),
-          ],
+              // Descrição
+              if (todo.description.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Text(
+                    todo.description,
+                    style: const TextStyle(fontSize: 14),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              // Localização
+              if (todo.latitude != null && todo.longitude != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 2.0),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.location_on,
+                          size: 14, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          'Lat: ${todo.latitude!.toStringAsFixed(4)}, Long: ${todo.longitude!.toStringAsFixed(4)}',
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.location_on, size: 20),
+                onPressed: () => _showLocationMap(context),
+                color: todo.latitude != null ? Colors.blue : Colors.grey,
+                padding: const EdgeInsets.all(4),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit, size: 20),
+                onPressed: () => _showEditDialog(context),
+                padding: const EdgeInsets.all(4),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red, size: 20),
+                onPressed: () async {
+                  final shouldDelete = await _confirmDelete(context);
+                  if (shouldDelete) {
+                    onDelete(todo.id);
+                  }
+                },
+                padding: const EdgeInsets.all(4),
+                constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+              ),
+            ],
+          ),
         ),
       ),
     );
