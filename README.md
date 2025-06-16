@@ -12,7 +12,7 @@ Aplicativo completo de **Lista de Tarefas** desenvolvido em Flutter para o curso
 
 **👨‍💻 Desenvolvedor:** Jefferson Ferreira Santos  
 **🎓 Instituição:** INFNET  
-**📅 Data:** Janeiro 2025  
+**📅 Data:** Junho 2025  
 **🏆 Status:** 100% Completo - Todos os requisitos atendidos
 
 ---
