@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "493122296588",
+    "project_id": "projeto-flutter-infnet-2025-2",
+    "storage_bucket": "projeto-flutter-infnet-2025-2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493122296588:android:ba7b703aef85aaf1d60729",
+        "android_client_info": {
+          "package_name": "com.jeffersonsantos.infnet2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJL3T9Gn4DR53B7fuMmQ5QAun639w0uro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
