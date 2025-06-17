@@ -453,6 +453,6 @@ O projeto supera as expectativas em todos os aspectos, demonstrando não apenas 
 
 ---
 
-**📅 Documento atualizado em:** Janeiro 2025  
+**📅 Documento atualizado em:** Junho 2025  
 **👨‍💻 Desenvolvedor:** Jefferson Ferreira Santos  
 **🎓 Projeto:** Flutter INFNET - Lista de Tarefas 

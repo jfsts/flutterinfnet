@@ -155,7 +155,7 @@
 
 ---
 
-**📅 Finalizado:** Janeiro 2025  
+**📅 Finalizado:** Junho 2025  
 **👨‍💻 Desenvolvedor:** Jefferson Ferreira Santos  
 **🎓 Projeto:** Flutter INFNET  
 **🎯 Status:** 100% COMPLETO! 🎉 

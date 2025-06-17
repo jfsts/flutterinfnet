@@ -294,5 +294,5 @@ Após a instalação bem-sucedida:
 
 ---
 
-**📅 Última atualização:** Janeiro 2025  
+**📅 Última atualização:** Junho 2025  
 **🏆 Status:** Guia completo e testado 
