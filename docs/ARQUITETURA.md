@@ -651,6 +651,6 @@ Esta arquitetura garante que o projeto atenda não apenas aos requisitos atuais,
 
 ---
 
-**📅 Documento atualizado em:** Janeiro 2025  
+**📅 Documento atualizado em:** Junho 2025  
 **👨‍💻 Arquiteto:** Jefferson Ferreira Santos  
 **🎓 Projeto:** Flutter INFNET - Lista de Tarefas 

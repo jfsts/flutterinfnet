@@ -202,5 +202,5 @@ Após adicionar todas as screenshots, o README.md principal mostrará automatica
 ---
 
 **👨‍💻 Desenvolvido por:** Jefferson Ferreira Santos  
-**📅 Data:** Janeiro 2025  
+**📅 Data:** Junho 2025  
 **🎓 Projeto:** Flutter INFNET 

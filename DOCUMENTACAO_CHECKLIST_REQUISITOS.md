@@ -344,7 +344,7 @@ O projeto demonstra uma implementação completa e profissional de um aplicativo
 ---
 
 ## 📅 **Status Final**
-**Data de atualização:** Janeiro 2025  
+**Data de atualização:** Junho 2025  
 **Responsável:** JEFFERSON FERREIRA SANTOS  
 **Projeto:** Lista de Tarefas com Firebase e ViaCEP  
 

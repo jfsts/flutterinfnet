@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/services/viacep_service.dart';
+import 'package:projetoflutterinfnet/services/viacep_service.dart';
 
 void main() {
   group('ViaCepService', () {

@@ -27,7 +27,7 @@
 📌 Tarefas de Exemplo:
 
 1. ✅ "Finalizar projeto Flutter INFNET"
-   📅 Concluída - 15/01/2025
+   📅 Concluída - 15/06/2025
    📍 INFNET - Rio de Janeiro
 
 2. ⏰ "Estudar para prova de Dart"
@@ -50,7 +50,7 @@
 ### **Nova Tarefa (Add Todo):**
 - **Título:** `Preparar apresentação final`
 - **Descrição:** `Criar slides e demonstração do app para avaliação`
-- **Data:** `25/01/2025`
+- **Data:** `25/06/2025`
 - **Hora:** `15:30`
 - **Localização:** `INFNET - Campus Rio`
 - **Estado:** Formulário parcialmente preenchido
@@ -58,7 +58,7 @@
 ### **Detalhes da Tarefa:**
 - **Tarefa selecionada:** "Estudar para prova de Dart"
 - **Status:** Pendente (VENCIDA)
-- **Criada em:** 10/01/2025
+- **Criada em:** 10/06/2025
 - **Localização:** Casa - Estudo
 - **Botões:** Editar, Excluir, Marcar como Concluída
 
