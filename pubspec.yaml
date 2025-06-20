@@ -92,6 +92,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+    - assets/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -120,3 +121,12 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# Configuração do flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/app_icon_new.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#4A90E2"
+  adaptive_icon_foreground: "assets/app_icon_new.png"
