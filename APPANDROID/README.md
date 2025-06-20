@@ -3,8 +3,8 @@
 Esta pasta contém o aplicativo Android compilado para instalação.
 
 ## Arquivos disponíveis:
-- **app-release.aab** (25.9MB) - Android Application Bundle (AAB) em modo release com assinatura debug
 - **app-release-signed.aab** (25.9MB) - Android Application Bundle (AAB) em modo release com assinatura personalizada
+- **app-release-custom-icons.aab** (28.1MB) - AAB com ícones personalizados e assinatura personalizada ✅ **RECOMENDADO**
 
 ## Como instalar:
 1. Para instalar em dispositivos Android, você precisa primeiro converter o AAB em APK usando o bundletool ou fazer upload para o Google Play Store
