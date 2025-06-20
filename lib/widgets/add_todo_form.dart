@@ -84,7 +84,7 @@ class _AddTodoFormState extends State<AddTodoForm> {
                     TileLayer(
                       urlTemplate:
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'com.example.app',
+                      userAgentPackageName: 'pro.jefferson.app',
                     ),
                     if (_latitude != null && _longitude != null)
                       MarkerLayer(

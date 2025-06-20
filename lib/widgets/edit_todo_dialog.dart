@@ -119,7 +119,7 @@ class _EditTodoDialogState extends State<EditTodoDialog> {
                     TileLayer(
                       urlTemplate:
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'com.example.app',
+                      userAgentPackageName: 'pro.jefferson.app',
                     ),
                     if (_latitude != null && _longitude != null)
                       MarkerLayer(

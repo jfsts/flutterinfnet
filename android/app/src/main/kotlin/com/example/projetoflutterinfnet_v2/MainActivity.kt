@@ -1,4 +1,4 @@
-package com.example.projetoflutterinfnet_v2
+package pro.jefferson.projetoflutterinfnet_v2
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -85,7 +85,7 @@ class TodoItem extends StatelessWidget {
                       TileLayer(
                         urlTemplate:
                             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName: 'com.example.app',
+                        userAgentPackageName: 'pro.jefferson.app',
                       ),
                       MarkerLayer(
                         markers: [
